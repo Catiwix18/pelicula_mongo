@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Películas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Fuente de Google Fonts */
+            background-color: #f8f9fa; /* Color de fondo */
+            padding: 20px; /* Espaciado alrededor del contenido */
+        }
+        h1 {
+            text-align: center; /* Centrar el título */
+            margin-bottom: 30px; /* Espaciado inferior */
+            color: #343a40; /* Color del texto */
+        }
+        .table {
+            background-color: #fff; /* Fondo de la tabla */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Listado de Películas</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Director</th>
+                    <th>Año</th>
+                </tr>
+            </thead>
+            <tbody id="movieList"></tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        fetch("/getMovies")
+            .then(response => response.json())
+            .then(movies => {
+                const movieList = document.getElementById("movieList");
+                movies.forEach(movie => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${movie.title}</td>
+                        <td>${movie.director}</td>
+                        <td>${movie.year}</td>
+                    `;
+                    movieList.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error("Error al obtener las películas:", error);
+                alert("Ocurrió un error al obtener las películas");
+            });
+    </script>
+</body>
+</html>

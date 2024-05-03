@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingreso de Película</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://e1.pxfuel.com/desktop-wallpaper/946/182/desktop-wallpaper-best-4-mystery-backgrounds-on-hip-secret-mystery-mobile.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            margin-top: 80px;
+            padding: 50px;
+            border-radius: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.7); 
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Ingreso de Película</h1>
+        <form id="movieForm" class="mt-4">
+            <div class="form-group">
+                <label for="title">TÍTULO:</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="director">DIRECTOR:</label>
+                <input type="text" class="form-control" id="director" name="director" required>
+            </div>
+            <div class="form-group">
+                <label for="year">AÑO:</label>
+                <input type="number" class="form-control" id="year" name="year" required>
+            </div>
+            <button type="submit" class="btn btn-primary">GUARDAR</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById("movieForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const newMovie = {
+                title: formData.get("title"),
+                director: formData.get("director"),
+                year: formData.get("year")
+            };
+
+            fetch("/saveMovie", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newMovie)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Película guardada exitosamente");
+                console.log(data);
+            })
+            .catch(error => {
+                console.error("Película guardada exitosamente", error);
+                alert("Película guardada exitosamente");
+            });
+        });
+    </script>
+</body>
+</html>
